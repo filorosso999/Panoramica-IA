@@ -1,0 +1,1848 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panoramica sull'Intelligenza Artificiale</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 20px;
+            line-height: 1.7;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .header-icon {
+            font-size: 90px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        h1 {
+            font-size: 2.4em;
+            color: #1a1a2e;
+            margin-bottom: 15px;
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            color: #666;
+        }
+
+        .intro-section {
+            background: #f8f9ff;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            border-left: 5px solid #0f3460;
+        }
+
+        .intro-section h2 {
+            color: #1a1a2e;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+
+        .intro-section p {
+            font-size: 1.1em;
+            color: #444;
+            margin-bottom: 15px;
+        }
+
+        .intro-section p:last-child {
+            margin-bottom: 0;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.1em;
+        }
+
+        .legend-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+
+        .legend-dot.oggi {
+            background: linear-gradient(135deg, #4CAF50, #8BC34A);
+        }
+
+        .legend-dot.futuro {
+            background: linear-gradient(135deg, #2196F3, #00BCD4);
+        }
+
+        .quick-nav {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .quick-nav h3 {
+            text-align: center;
+            color: #1a1a2e;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .nav-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .nav-btn {
+            background: #f0f4ff;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: #1a1a2e;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .sectors-container {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .sector-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .sector-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+        }
+
+        .sector-header {
+            padding: 25px 30px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .sector-icon {
+            font-size: 55px;
+            flex-shrink: 0;
+        }
+
+        .sector-info {
+            flex-grow: 1;
+        }
+
+        .sector-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #1a1a2e;
+        }
+
+        .sector-subtitle {
+            font-size: 1em;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .expand-icon {
+            font-size: 28px;
+            color: #999;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .sector-card.active .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .sector-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+        .sector-card.active .sector-content {
+            max-height: 3000px;
+        }
+
+        .content-inner {
+            padding: 0 30px 30px 30px;
+        }
+
+        .time-section {
+            background: #f8f9ff;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .time-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .time-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .time-badge {
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1.1em;
+            color: white;
+        }
+
+        .time-badge.oggi {
+            background: linear-gradient(135deg, #4CAF50, #8BC34A);
+        }
+
+        .time-badge.futuro {
+            background: linear-gradient(135deg, #2196F3, #00BCD4);
+        }
+
+        .time-title {
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        .capability-list {
+            list-style: none;
+        }
+
+        .capability-item {
+            background: white;
+            border-radius: 12px;
+            padding: 18px 20px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .capability-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .capability-icon {
+            font-size: 28px;
+            flex-shrink: 0;
+        }
+
+        .capability-text {
+            flex-grow: 1;
+        }
+
+        .capability-text h4 {
+            font-size: 1.1em;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+
+        .capability-text p {
+            font-size: 1em;
+            color: #555;
+        }
+
+        /* Colori settori */
+        .settore-medicina .sector-header { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); }
+        .settore-trasporti .sector-header { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
+        .settore-lavoro .sector-header { background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); }
+        .settore-arte .sector-header { background: linear-gradient(135deg, #d299c2 0%, #fef9d7 100%); }
+        .settore-scienza .sector-header { background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%); }
+        .settore-comunicazione .sector-header { background: linear-gradient(135deg, #fddb92 0%, #d1fdff 100%); }
+        .settore-sicurezza .sector-header { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .settore-istruzione .sector-header { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .settore-agricoltura .sector-header { background: linear-gradient(135deg, #c1dfc4 0%, #deecdd 100%); }
+
+        .reflection-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .reflection-section h2 {
+            font-size: 1.7em;
+            color: #1a1a2e;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .reflection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .reflection-card {
+            background: #f8f9ff;
+            border-radius: 15px;
+            padding: 25px;
+            border-left: 5px solid #1a1a2e;
+        }
+
+        .reflection-card h3 {
+            color: #1a1a2e;
+            margin-bottom: 12px;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .reflection-card p {
+            color: #555;
+            font-size: 1em;
+        }
+
+        footer {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 40px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        footer p {
+            color: #666;
+            font-size: 1em;
+        }
+
+        .footer-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #1a1a2e;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                font-size: 18px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .sector-icon {
+                font-size: 40px;
+            }
+
+            .header-icon {
+                font-size: 70px;
+            }
+
+            .legend {
+                gap: 20px;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+                font-size: 12pt;
+            }
+
+            .sector-card {
+                break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+
+            .sector-content {
+                max-height: none !important;
+            }
+
+            .back-to-top, .quick-nav {
+                display: none;
+            }
+        }
+
+        /* STILI SEZIONE LAVORI */
+        .jobs-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .jobs-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #1a1a2e;
+        }
+
+        .jobs-icon {
+            font-size: 60px;
+        }
+
+        .jobs-header h2 {
+            font-size: 1.8em;
+            color: #1a1a2e;
+            margin-bottom: 5px;
+        }
+
+        .jobs-subtitle {
+            font-size: 1.1em;
+            color: #666;
+        }
+
+        .jobs-intro {
+            background: #f0f4ff;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-left: 4px solid #1a1a2e;
+        }
+
+        .jobs-intro p {
+            font-size: 1.05em;
+            color: #444;
+        }
+
+        .jobs-category {
+            margin-bottom: 35px;
+        }
+
+        .jobs-category-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .jobs-category-header.scomparsi {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%);
+            color: white;
+        }
+
+        .jobs-category-header.trasformati {
+            background: linear-gradient(135deg, #ffa726 0%, #ff9800 100%);
+            color: white;
+        }
+
+        .jobs-category-header.rischio {
+            background: linear-gradient(135deg, #ffca28 0%, #ffc107 100%);
+            color: #333;
+        }
+
+        .jobs-category-header.nuovi {
+            background: linear-gradient(135deg, #66bb6a 0%, #4caf50 100%);
+            color: white;
+        }
+
+        .jobs-category-header.sicuri {
+            background: linear-gradient(135deg, #42a5f5 0%, #2196f3 100%);
+            color: white;
+        }
+
+        .jobs-cat-icon {
+            font-size: 40px;
+        }
+
+        .jobs-category-header h3 {
+            font-size: 1.3em;
+            margin-bottom: 3px;
+        }
+
+        .jobs-category-header p {
+            font-size: 0.95em;
+            opacity: 0.9;
+        }
+
+        .jobs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 15px;
+        }
+
+        .job-card {
+            background: #f8f9ff;
+            border-radius: 12px;
+            padding: 18px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            border-left: 4px solid #ddd;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .job-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+        }
+
+        .job-card.scomparso {
+            border-left-color: #e53935;
+        }
+
+        .job-card.trasformato {
+            border-left-color: #ff9800;
+        }
+
+        .job-card.rischio {
+            border-left-color: #ffc107;
+        }
+
+        .job-card.nuovo {
+            border-left-color: #4caf50;
+        }
+
+        .job-card.sicuro {
+            border-left-color: #2196f3;
+        }
+
+        .job-icon {
+            font-size: 35px;
+            flex-shrink: 0;
+        }
+
+        .job-info h4 {
+            font-size: 1.1em;
+            color: #1a1a2e;
+            margin-bottom: 6px;
+        }
+
+        .job-info p {
+            font-size: 0.95em;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .jobs-message {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            margin-top: 30px;
+            color: white;
+        }
+
+        .message-icon {
+            font-size: 60px;
+            flex-shrink: 0;
+        }
+
+        .message-content h3 {
+            font-size: 1.4em;
+            margin-bottom: 12px;
+        }
+
+        .message-content p {
+            font-size: 1.05em;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .message-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        @media (max-width: 768px) {
+            .jobs-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .jobs-message {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .jobs-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <span class="header-icon">🧠</span>
+            <h1>Panoramica sull'Intelligenza Artificiale</h1>
+            <p class="subtitle">Cosa fa oggi e cosa farà domani</p>
+            
+            <div class="intro-section">
+                <h2>Cos'è l'Intelligenza Artificiale?</h2>
+                <p>L'Intelligenza Artificiale (IA) è la capacità delle macchine di svolgere compiti che normalmente richiederebbero l'intelligenza umana: riconoscere immagini, comprendere il linguaggio, prendere decisioni, imparare dall'esperienza.</p>
+                <p>Non si tratta di robot senzienti come nei film, ma di programmi molto sofisticati che elaborano enormi quantità di dati per trovare schemi, fare previsioni e automatizzare attività complesse.</p>
+                
+                <div class="legend">
+                    <div class="legend-item">
+                        <span class="legend-dot oggi"></span>
+                        <span><strong>OGGI</strong> - Cosa fa già l'IA</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-dot futuro"></span>
+                        <span><strong>DOMANI</strong> - Cosa potrà fare</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <nav class="quick-nav">
+            <h3>🎯 Esplora i Settori</h3>
+            <div class="nav-buttons">
+                <button class="nav-btn" onclick="scrollToSector(0)">🏥 Medicina</button>
+                <button class="nav-btn" onclick="scrollToSector(1)">🚗 Trasporti</button>
+                <button class="nav-btn" onclick="scrollToSector(2)">💼 Lavoro</button>
+                <button class="nav-btn" onclick="scrollToSector(3)">🎨 Arte</button>
+                <button class="nav-btn" onclick="scrollToSector(4)">🔬 Scienza</button>
+                <button class="nav-btn" onclick="scrollToSector(5)">💬 Comunicazione</button>
+                <button class="nav-btn" onclick="scrollToSector(6)">🛡️ Sicurezza</button>
+                <button class="nav-btn" onclick="scrollToSector(7)">📚 Istruzione</button>
+                <button class="nav-btn" onclick="scrollToSector(8)">🌾 Agricoltura</button>
+                <button class="nav-btn" style="background: #667eea; color: white;" onclick="scrollToJobs()">👔 Impatto sui Lavori</button>
+            </div>
+        </nav>
+
+        <div class="sectors-container">
+            
+            <!-- MEDICINA E SALUTE -->
+            <div class="sector-card settore-medicina">
+                <div class="sector-header" onclick="toggleSector(this.parentElement)">
+                    <span class="sector-icon">🏥</span>
+                    <div class="sector-info">
+                        <div class="sector-title">Medicina e Salute</div>
+                        <div class="sector-subtitle">Diagnosi, cure e ricerca medica</div>
+                    </div>
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="sector-content">
+                    <div class="content-inner">
+                        <div class="time-section">
+                            <div class="time-header">
+                                <span class="time-badge oggi">OGGI</span>
+                                <span class="time-title">Cosa fa già l'IA</span>
+                            </div>
+                            <ul class="capability-list">
+                                <li class="capability-item">
+                                    <span class="capability-icon">🔍</span>
+                                    <div class="capability-text">
+                                        <h4>Diagnosi per immagini</h4>
+                                        <p>Analizza radiografie, TAC e risonanze magnetiche per individuare tumori, fratture e anomalie, spesso con precisione superiore all'occhio umano.</p>
+                                    </div>
+                                </li>
+                                <li class="capability-item">
+                                    <span class="capability-icon">💊</span>
+                                    <div class="capability-text">
+                                        <h4>Scoperta di farmaci</h4>
+                                        <p>Accelera la ricerca di nuovi medicinali analizzando milioni di molecole in tempi rapidissimi. Ha contribuito allo sviluppo dei vaccini COVID-19.</p>
+                                    </div>
+                                </li>
+                                <li class="capability-item">
+                                    <span class="capability-icon">❤️</span>
+                                    <div class="capability-text">
+                                        <h4>Monitoraggio continuo</h4>
+                                        <p>Smartwatch e dispositivi indossabili rilevano irregolarità cardiache, apnee notturne e altri problemi prima che diventino gravi.</p>
+                                    </div>
+                                </li>
+                                <li class="capability-item">
+                                    <span class="capability-icon">🧬</span>
+                                    <div class="capability-text">
+                                        <h4>Analisi genetica</h4>
+                                        <p>Interpreta il DNA per identificare predisposizioni a malattie ereditarie e personalizzare le terapie.</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="time-section">
+                            <div class="time-header">
+                                <span class="time-badge futuro">DOMANI</span>
+                                <span class="time-title">Cosa potrà fare</span>
+                            </div>
+                            <ul class="capability-list">
+                                <li class="capability-item">
+                                    <span class="capability-icon">🎯</span>
+                                    <div class="capability-text">
+                                        <h4>Medicina predittiva</h4>
+                                        <p>Prevedere malattie anni prima che si manifestino, permettendo prevenzione mirata per ogni individuo.</p>
+                                    </div>
+                                </li>
+                                <li class="capability-item">
+                                    <span class="capability-icon">🤖</span>
+                                    <div class="capability-text">
+                                        <h4>Chirurgia autonoma</h4>
+                                        <p>Robot chirurgici capaci di eseguire operazioni complesse con precisione millimetrica, senza affaticamento.</p>
+                                    </div>
+                                </li>
+                                <li class="capability-item">
+                                    <span class="capability-icon">💉</span>
+                                    <div class="capability-text">
+                                        <h4>Farmaci personalizzati</h4>
+                                        <p>Medicinali creati su misura per il profilo genetico di ogni paziente, massimizzando efficacia e minimizzando effetti collaterali.</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TRASPORTI -->
+            <div class="sector-card settore-trasporti">
+                <div class="sector-header" onclick="toggleSector(this.parentElement)">
+                    <span class="sector-icon">🚗</span>
+                    <div class="sector-info">
+                        <div class="sector-title">Trasporti</div>
+                        <div class="sector-subtitle">Veicoli autonomi e mobilità intelligente</div>
+                    </div>
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="sector-content">
+                    <div class="content-inner">
+                        <div class="time-section">
+                            <div class="time-header">
+                                <span class="time-badge oggi">OGGI</span>
+                                <span class="time-title">Cosa fa già l'IA</span>
+                            </div>
+                            <ul class="capability-list">
+                                <li class="capability-item">
+                                    <span class="capability-icon">🚙</span>
+                                    <div class="capability-text">
+                                        <h4>Guida assistita</h4>
+                                        <p>Sistemi che mantengono la corsia, frenano automaticamente, parcheggiano l'auto e avvisano di pericoli. Presenti in molte auto moderne.</p>
+                                    </div>
+                                </li>
+                                <li class="capability-item">
+                                    <span class="capability-icon">🗺️</span>
+                                    <div class="capability-text">
+                                        <h4>Navigazione intelligente</h4>
+                                        <p>Google Maps e simili analizzano il traffico in tempo reale e calcolano il percorso più veloce, prevedendo ingorghi.</p>
+                                    </div>
+                                </li>
+                                <li class="capability-item">
+                                    <span class="capability-icon">🚕</span>
+                                    <div class="capability-text">
+                                        <h4>Taxi senza conducente</h4>
+                                        <p>In alcune città (USA, Cina) circolano già taxi completamente autonomi, senza autista a bordo.</p>
+                                    </div>
+                                </li>
+                                <li class="capability-item">
+                                    <span class="capability-icon">🚦</span>
+                                    <div class="capability-text">
+                                        <h4>Gestione del traffico</h4>
+                                        <p>Semafori intelligenti che si adattano al flusso veicolare, riducendo code e inquinamento.</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="time-section">
+                            <div class="time-header">
+                                <span class="time-badge futuro">DOMANI</span>
+                                <span class="time-title">Cosa potrà fare</span>
+                            </div>
+                            <ul class="capability-list">
+                                <li class="capability-item">
+                                    <span class="capability-icon">🚘</span>
+                                    <div class="capability-text">
+                                        <h4>Guida completamente autonoma</h4>
+                                        <p>Auto capaci di guidare ovunque, in qualsiasi condizione, senza intervento umano. Potrebbe eliminare gli incidenti stradali.</p>
+                                    </div>
+                                </li>
+                                <li class="capability-item">
+                                    <span class="capability-icon">🚁</span>
+                                    <div class="capability-text">
+                                        <h4>Taxi volanti</h4>
+                                        <p>Velivoli elettrici autonomi per spostamenti urbani, già in fase di sperimentazione in diverse città.</p>
+                                    </div>
+                                </li>
+                                <li class="capability-item">
+                                    <span class="capability-icon">📦</span>
+                                    <div class="capability-text">
+                                        <h4>Consegne con droni</h4>
+                                        <p>Pacchi e medicinali consegnati a domicilio da droni autonomi in pochi minuti.</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LAVORO E AZIENDE -->
+            <div class="sector-card settore-lavoro">
+                <div class="sector-header" onclick="toggleSector(this.parentElement)">
+                    <span class="sector-icon">💼</span>
+                    <div class="sector-info">
+                        <div class="sector-title">Lavoro e Aziende</div>
+                        <div class="sector-subtitle">Automazione e produttività</div>
+                    </div>
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="sector-content">
+                    <div class="content-inner">
+                        <div class="time-section">
+                            <div class="time-header">
+                                <span class="time-badge oggi">OGGI</span>
+                                <span class="time-title">Cosa fa già l'IA</span>
+                            </div>
+                            <ul class="capability-list">
+                                <li class="capability-item">
+                                    <span class="capability-icon">📧</span>
+                                    <div class="capability-text">
+                                        <h4>Automazione documenti</h4>
+                                        <p>Scrive email, riassume riunioni, compila report, traduce documenti. Risparmia ore di lavoro ripetitivo.</p>
+                                    </div>
+                                </li>
+                                <li class="capability-item">
+                                    <span class="capability-icon">🤖</span>
+                                    <div class="capability-text">
+                                        <h4>Assistenza clienti</h4>
+                                        <p>Chatbot rispondono a domande frequenti 24 ore su 24, gestendo migliaia di richieste simultaneamente.</p>
+                                    </div>
+                                </li>
+                                <li class="capability-item">
+                                    <span class="capability-icon">📊</span>
+                                    <div class="capability-text">
+                                        <h4>Analisi dati aziendali</h4>
+                                        <p>Elabora montagne di dati per trovare tendenze, prevedere vendite, ottimizzare magazzini e catene di fornitura.</p>
+                                    </div>
+                                </li>
+                                <li class="capability-item">
+                                    <span class="capability-icon">🏭</span>
+                                    <div class="capability-text">
+                                        <h4>Robot industriali</h4>
+                                        <p>Nelle fabbriche, bracci robotici assemblano prodotti con velocità e precisione impossibili per l'uomo.</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="time-section">
+                            <div class="time-header">
+                                <span class="time-badge futuro">DOMANI</span>
+                                <span class="time-title">Cosa potrà fare</span>
+                            </div>
+                            <ul class="capability-list">
+                                <li class="capability-item">
+                                    <span class="capability-icon">🧑‍💼</span>
+                                    <div class="capability-text">
+                                        <h4>Collaboratori virtuali</h4>
+                                        <p>IA che lavorano come veri colleghi: gestiscono progetti, prendono decisioni, coordinano team.</p>
+                                    </div>
+                                </li>
+                                <li class="capability-item">
+                                    <span class="capability-icon">🔮</span>
+                                    <div class="capability-text">
+                                        <h4>Previsioni strategiche</h4>
+                                        <p>Anticipare cambiamenti di mercato, comportamenti dei consumatori e rischi aziendali con mesi di anticipo.</p>
+                                    </div>
+                                </li>
+                                <li class="capability-item">
+                                    <span class="capability-icon">⚡</span>
+                                    <div class="capability-text">
+                                        <h4>Automazione totale</h4>
+                                        <p>Interi processi aziendali gestiti autonomamente dall'IA, dalla produzione alla consegna.</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ARTE E CREATIVITÀ -->
+            <div class="sector-card settore-arte">
+                <div class="sector-header" onclick="toggleSector(this.parentElement)">
+                    <span class="sector-icon">🎨</span>
+                    <div class="sector-info">
+                        <div class="sector-title">Arte e Creatività</div>
+                        <div class="sector-subtitle">Immagini, musica, video e testi generati</div>
+                    </div>
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="sector-content">
+                    <div class="content-inner">
+                        <div class="time-section">
+                            <div class="time-header">
+                                <span class="time-badge oggi">OGGI</span>
+                                <span class="time-title">Cosa fa già l'IA</span>
+                            </div>
+                            <ul class="capability-list">
+                                <li class="capability-item">
+                                    <span class="capability-icon">🖼️</span>
+                                    <div class="capability-text">
+                                        <h4>Generazione di immagini</h4>
+                                        <p>Crea immagini realistiche o artistiche da semplici descrizioni testuali. Basta scrivere "un gatto astronauta sulla luna" e l'IA lo disegna.</p>
+                                    </div>
+                                </li>
+                                <li class="capability-item">
+                                    <span class="capability-icon">✍️</span>
+                                    <div class="capability-text">
+                                        <h4>Scrittura di testi</h4>
+                                        <p>Scrive articoli, poesie, storie, sceneggiature, codice informatico. Può imitare stili diversi di scrittura.</p>
+                                    </div>
+                                </li>
+                                <li class="capability-item">
+                                    <span class="capability-icon">🎵</span>
+                                    <div class="capability-text">
+                                        <h4>Composizione musicale</h4>
+                                        <p>Compone musica in qualsiasi genere, dalla classica all'elettronica. Usata per colonne sonore e jingle pubblicitari.</p>
+                                    </div>
+                                </li>
+                                <li class="capability-item">
+                                    <span class="capability-icon">🎬</span>
+                                    <div class="capability-text">
+                                        <h4>Editing video</h4>
+                                        <p>Migliora automaticamente la qualità dei video, aggiunge effetti, sincronizza audio, crea sottotitoli.</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="time-section">
+                            <div class="time-header">
+                                <span class="time-badge futuro">DOMANI</span>
+                                <span class="time-title">Cosa potrà fare</span>
+                            </div>
+                            <ul class="capability-list">
+                                <li class="capability-item">
+                                    <span class="capability-icon">🎥</span>
+                                    <div class="capability-text">
+                                        <h4>Film generati dall'IA</h4>
+                                        <p>Creare interi film partendo solo da una sceneggiatura: attori virtuali, scenografie, effetti speciali, tutto generato.</p>
+                                    </div>
+                                </li>
+                                <li class="capability-item">
+                                    <span class="capability-icon">🎮</span>
+                                    <div class="capability-text">
+                                        <h4>Videogiochi infiniti</h4>
+                                        <p>Giochi che creano continuamente nuovi livelli, personaggi e storie, adattandosi ai gusti del giocatore.</p>
+                                    </div>
+                                </li>
+                                <li class="capability-item">
+                                    <span class="capability-icon">👤</span>
+                                    <div class="capability-text">
+                                        <h4>Avatar personali</h4>
+                                        <p>Versioni digitali di noi stessi che possono apparire in video, presentazioni, videochiamate al nostro posto.</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SCIENZA E RICERCA -->
+            <div class="sector-card settore-scienza">
+                <div class="sector-header" onclick="toggleSector(this.parentElement)">
+                    <span class="sector-icon">🔬</span>
+                    <div class="sector-info">
+                        <div class="sector-title">Scienza e Ricerca</div>
+                        <div class="sector-subtitle">Scoperte e innovazione scientifica</div>
+                    </div>
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="sector-content">
+                    <div class="content-inner">
+                        <div class="time-section">
+                            <div class="time-header">
+                                <span class="time-badge oggi">OGGI</span>
+                                <span class="time-title">Cosa fa già l'IA</span>
+                            </div>
+                            <ul class="capability-list">
+                                <li class="capability-item">
+                                    <span class="capability-icon">🧬</span>
+                                    <div class="capability-text">
+                                        <h4>Struttura delle proteine</h4>
+                                        <p>AlphaFold di Google ha risolto un problema scientifico aperto da 50 anni: prevedere come si "piegano" le proteine. Rivoluzionario per la medicina.</p>
+                                    </div>
+                                </li>
+                                <li class="capability-item">
+                                    <span class="capability-icon">🌌</span>
+                                    <div class="capability-text">
+                                        <h4>Esplorazione spaziale</h4>
+                                        <p>Analizza immagini di telescopi per scoprire pianeti, galassie e fenomeni cosmici. Ha trovato migliaia di esopianeti.</p>
+                                    </div>
+                                </li>
+                                <li class="capability-item">
+                                    <span class="capability-icon">🌡️</span>
+                                    <div class="capability-text">
+                                        <h4>Previsioni climatiche</h4>
+                                        <p>Modella il clima terrestre per prevedere l'impatto del riscaldamento globale e pianificare interventi.</p>
+                                    </div>
+                                </li>
+                                <li class="capability-item">
+                                    <span class="capability-icon">⚗️</span>
+                                    <div class="capability-text">
+                                        <h4>Nuovi materiali</h4>
+                                        <p>Scopre combinazioni di elementi per creare materiali innovativi: più leggeri, resistenti, sostenibili.</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="time-section">
+                            <div class="time-header">
+                                <span class="time-badge futuro">DOMANI</span>
+                                <span class="time-title">Cosa potrà fare</span>
+                            </div>
+                            <ul class="capability-list">
+                                <li class="capability-item">
+                                    <span class="capability-icon">💡</span>
+                                    <div class="capability-text">
+                                        <h4>Scoperte autonome</h4>
+                                        <p>IA che formulano ipotesi scientifiche, progettano esperimenti e fanno scoperte originali senza guida umana.</p>
+                                    </div>
+                                </li>
+                                <li class="capability-item">
+                                    <span class="capability-icon">⚛️</span>
+                                    <div class="capability-text">
+                                        <h4>Fusione nucleare</h4>
+                                        <p>Controllare le reazioni di fusione nucleare per produrre energia pulita e illimitata. L'IA è essenziale per gestire la complessità.</p>
+                                    </div>
+                                </li>
+                                <li class="capability-item">
+                                    <span class="capability-icon">🧪</span>
+                                    <div class="capability-text">
+                                        <h4>Laboratori automatizzati</h4>
+                                        <p>Laboratori robotici dove l'IA conduce migliaia di esperimenti contemporaneamente, accelerando la ricerca di decenni.</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COMUNICAZIONE -->
+            <div class="sector-card settore-comunicazione">
+                <div class="sector-header" onclick="toggleSector(this.parentElement)">
+                    <span class="sector-icon">💬</span>
+                    <div class="sector-info">
+                        <div class="sector-title">Comunicazione</div>
+                        <div class="sector-subtitle">Linguaggio, traduzione e interazione</div>
+                    </div>
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="sector-content">
+                    <div class="content-inner">
+                        <div class="time-section">
+                            <div class="time-header">
+                                <span class="time-badge oggi">OGGI</span>
+                                <span class="time-title">Cosa fa già l'IA</span>
+                            </div>
+                            <ul class="capability-list">
+                                <li class="capability-item">
+                                    <span class="capability-icon">🌍</span>
+                                    <div class="capability-text">
+                                        <h4>Traduzione istantanea</h4>
+                                        <p>Traduce testi e conversazioni in tempo reale tra centinaia di lingue. La qualità è ormai paragonabile a traduttori professionisti.</p>
+                                    </div>
+                                </li>
+                                <li class="capability-item">
+                                    <span class="capability-icon">🗣️</span>
+                                    <div class="capability-text">
+                                        <h4>Assistenti vocali</h4>
+                                        <p>Siri, Alexa, Google Assistant: capiscono il linguaggio naturale e rispondono a domande, eseguono comandi, controllano dispositivi.</p>
+                                    </div>
+                                </li>
+                                <li class="capability-item">
+                                    <span class="capability-icon">💭</span>
+                                    <div class="capability-text">
+                                        <h4>Chatbot conversazionali</h4>
+                                        <p>Sistemi come ChatGPT e Claude conversano in modo naturale, rispondono a domande complesse, aiutano a scrivere e ragionare.</p>
+                                    </div>
+                                </li>
+                                <li class="capability-item">
+                                    <span class="capability-icon">📝</span>
+                                    <div class="capability-text">
+                                        <h4>Trascrizione automatica</h4>
+                                        <p>Converte il parlato in testo scritto con alta precisione. Utile per riunioni, interviste, sottotitoli.</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="time-section">
+                            <div class="time-header">
+                                <span class="time-badge futuro">DOMANI</span>
+                                <span class="time-title">Cosa potrà fare</span>
+                            </div>
+                            <ul class="capability-list">
+                                <li class="capability-item">
+                                    <span class="capability-icon">🎧</span>
+                                    <div class="capability-text">
+                                        <h4>Traduzione universale in tempo reale</h4>
+                                        <p>Auricolari che traducono istantaneamente qualsiasi lingua mentre parliamo con stranieri, come avere un interprete sempre con noi.</p>
+                                    </div>
+                                </li>
+                                <li class="capability-item">
+                                    <span class="capability-icon">🧠</span>
+                                    <div class="capability-text">
+                                        <h4>Comprensione profonda</h4>
+                                        <p>IA che capiscono non solo le parole ma il contesto, le emozioni, le intenzioni nascoste dietro una comunicazione.</p>
+                                    </div>
+                                </li>
+                                <li class="capability-item">
+                                    <span class="capability-icon">🤝</span>
+                                    <div class="capability-text">
+                                        <h4>Mediazione culturale</h4>
+                                        <p>Sistemi che aiutano a comunicare rispettando differenze culturali, evitando fraintendimenti tra persone di culture diverse.</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SICUREZZA -->
+            <div class="sector-card settore-sicurezza">
+                <div class="sector-header" onclick="toggleSector(this.parentElement)">
+                    <span class="sector-icon">🛡️</span>
+                    <div class="sector-info">
+                        <div class="sector-title">Sicurezza</div>
+                        <div class="sector-subtitle">Sorveglianza, prevenzione e protezione</div>
+                    </div>
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="sector-content">
+                    <div class="content-inner">
+                        <div class="time-section">
+                            <div class="time-header">
+                                <span class="time-badge oggi">OGGI</span>
+                                <span class="time-title">Cosa fa già l'IA</span>
+                            </div>
+                            <ul class="capability-list">
+                                <li class="capability-item">
+                                    <span class="capability-icon">👤</span>
+                                    <div class="capability-text">
+                                        <h4>Riconoscimento facciale</h4>
+                                        <p>Identifica persone da foto o video. Usato per sbloccare telefoni, controlli aeroportuali, ricerca di persone scomparse.</p>
+                                    </div>
+                                </li>
+                                <li class="capability-item">
+                                    <span class="capability-icon">🔐</span>
+                                    <div class="capability-text">
+                                        <h4>Sicurezza informatica</h4>
+                                        <p>Rileva virus, tentativi di hacking e truffe online in tempo reale, proteggendo computer e dati personali.</p>
+                                    </div>
+                                </li>
+                                <li class="capability-item">
+                                    <span class="capability-icon">📹</span>
+                                    <div class="capability-text">
+                                        <h4>Videosorveglianza intelligente</h4>
+                                        <p>Telecamere che riconoscono comportamenti sospetti, incidenti, assembramenti pericolosi e avvisano automaticamente.</p>
+                                    </div>
+                                </li>
+                                <li class="capability-item">
+                                    <span class="capability-icon">🚨</span>
+                                    <div class="capability-text">
+                                        <h4>Rilevamento frodi</h4>
+                                        <p>Identifica transazioni bancarie sospette e blocca le truffe prima che vadano a buon fine.</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="time-section">
+                            <div class="time-header">
+                                <span class="time-badge futuro">DOMANI</span>
+                                <span class="time-title">Cosa potrà fare</span>
+                            </div>
+                            <ul class="capability-list">
+                                <li class="capability-item">
+                                    <span class="capability-icon">🎭</span>
+                                    <div class="capability-text">
+                                        <h4>Rilevamento deepfake</h4>
+                                        <p>Identificare video e audio falsi generati dall'IA per contrastare la disinformazione e le truffe digitali.</p>
+                                    </div>
+                                </li>
+                                <li class="capability-item">
+                                    <span class="capability-icon">🌐</span>
+                                    <div class="capability-text">
+                                        <h4>Prevenzione attacchi globali</h4>
+                                        <p>Sistemi che prevedono e prevengono attacchi informatici su larga scala prima che si verifichino.</p>
+                                    </div>
+                                </li>
+                                <li class="capability-item">
+                                    <span class="capability-icon">⚠️</span>
+                                    <div class="capability-text">
+                                        <h4>Previsione crimini</h4>
+                                        <p>Analisi di dati per prevedere dove e quando potrebbero verificarsi crimini, permettendo interventi preventivi. (Solleva importanti questioni etiche)</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ISTRUZIONE -->
+            <div class="sector-card settore-istruzione">
+                <div class="sector-header" onclick="toggleSector(this.parentElement)">
+                    <span class="sector-icon">📚</span>
+                    <div class="sector-info">
+                        <div class="sector-title">Istruzione</div>
+                        <div class="sector-subtitle">Apprendimento personalizzato e accessibile</div>
+                    </div>
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="sector-content">
+                    <div class="content-inner">
+                        <div class="time-section">
+                            <div class="time-header">
+                                <span class="time-badge oggi">OGGI</span>
+                                <span class="time-title">Cosa fa già l'IA</span>
+                            </div>
+                            <ul class="capability-list">
+                                <li class="capability-item">
+                                    <span class="capability-icon">🎓</span>
+                                    <div class="capability-text">
+                                        <h4>Tutor personalizzati</h4>
+                                        <p>Sistemi che si adattano al ritmo di apprendimento dello studente, spiegando concetti in modi diversi fino alla comprensione.</p>
+                                    </div>
+                                </li>
+                                <li class="capability-item">
+                                    <span class="capability-icon">✅</span>
+                                    <div class="capability-text">
+                                        <h4>Correzione automatica</h4>
+                                        <p>Valuta compiti e test, fornendo feedback immediato. Libera tempo agli insegnanti per attività più importanti.</p>
+                                    </div>
+                                </li>
+                                <li class="capability-item">
+                                    <span class="capability-icon">🌐</span>
+                                    <div class="capability-text">
+                                        <h4>Apprendimento lingue</h4>
+                                        <p>App come Duolingo usano l'IA per creare esercizi personalizzati e correggere la pronuncia in tempo reale.</p>
+                                    </div>
+                                </li>
+                                <li class="capability-item">
+                                    <span class="capability-icon">♿</span>
+                                    <div class="capability-text">
+                                        <h4>Accessibilità</h4>
+                                        <p>Trasforma testi in audio per non vedenti, traduce in linguaggio dei segni, adatta contenuti per diverse disabilità.</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="time-section">
+                            <div class="time-header">
+                                <span class="time-badge futuro">DOMANI</span>
+                                <span class="time-title">Cosa potrà fare</span>
+                            </div>
+                            <ul class="capability-list">
+                                <li class="capability-item">
+                                    <span class="capability-icon">👨‍🏫</span>
+                                    <div class="capability-text">
+                                        <h4>Insegnanti virtuali</h4>
+                                        <p>IA capaci di tenere intere lezioni, rispondere a domande, motivare gli studenti come un vero insegnante.</p>
+                                    </div>
+                                </li>
+                                <li class="capability-item">
+                                    <span class="capability-icon">🥽</span>
+                                    <div class="capability-text">
+                                        <h4>Simulazioni immersive</h4>
+                                        <p>Vivere la storia camminando nell'antica Roma, esplorare il corpo umano dall'interno, visitare pianeti lontani.</p>
+                                    </div>
+                                </li>
+                                <li class="capability-item">
+                                    <span class="capability-icon">🎯</span>
+                                    <div class="capability-text">
+                                        <h4>Percorsi formativi su misura</h4>
+                                        <p>Programmi di studio creati individualmente per ogni studente, basati su talenti, interessi e obiettivi personali.</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AGRICOLTURA -->
+            <div class="sector-card settore-agricoltura">
+                <div class="sector-header" onclick="toggleSector(this.parentElement)">
+                    <span class="sector-icon">🌾</span>
+                    <div class="sector-info">
+                        <div class="sector-title">Agricoltura</div>
+                        <div class="sector-subtitle">Coltivazione intelligente e sostenibile</div>
+                    </div>
+                    <span class="expand-icon">▼</span>
+                </div>
+                <div class="sector-content">
+                    <div class="content-inner">
+                        <div class="time-section">
+                            <div class="time-header">
+                                <span class="time-badge oggi">OGGI</span>
+                                <span class="time-title">Cosa fa già l'IA</span>
+                            </div>
+                            <ul class="capability-list">
+                                <li class="capability-item">
+                                    <span class="capability-icon">🛰️</span>
+                                    <div class="capability-text">
+                                        <h4>Monitoraggio satellitare</h4>
+                                        <p>Droni e satelliti analizzano i campi dall'alto per identificare zone secche, malattie delle piante, infestazioni.</p>
+                                    </div>
+                                </li>
+                                <li class="capability-item">
+                                    <span class="capability-icon">💧</span>
+                                    <div class="capability-text">
+                                        <h4>Irrigazione intelligente</h4>
+                                        <p>Sensori e IA determinano esattamente quanta acqua serve a ogni zona del campo, risparmiando fino al 50% di acqua.</p>
+                                    </div>
+                                </li>
+                                <li class="capability-item">
+                                    <span class="capability-icon">🐛</span>
+                                    <div class="capability-text">
+                                        <h4>Rilevamento malattie</h4>
+                                        <p>Riconosce parassiti e malattie dalle foto delle foglie, suggerendo trattamenti mirati invece di pesticidi generalizzati.</p>
+                                    </div>
+                                </li>
+                                <li class="capability-item">
+                                    <span class="capability-icon">📈</span>
+                                    <div class="capability-text">
+                                        <h4>Previsione raccolti</h4>
+                                        <p>Prevede la resa dei raccolti combinando dati meteo, del suolo e storici, aiutando la pianificazione.</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="time-section">
+                            <div class="time-header">
+                                <span class="time-badge futuro">DOMANI</span>
+                                <span class="time-title">Cosa potrà fare</span>
+                            </div>
+                            <ul class="capability-list">
+                                <li class="capability-item">
+                                    <span class="capability-icon">🤖</span>
+                                    <div class="capability-text">
+                                        <h4>Robot agricoli autonomi</h4>
+                                        <p>Macchine che seminano, curano e raccolgono autonomamente, lavorando 24 ore su 24 con precisione millimetrica.</p>
+                                    </div>
+                                </li>
+                                <li class="capability-item">
+                                    <span class="capability-icon">🌱</span>
+                                    <div class="capability-text">
+                                        <h4>Agricoltura verticale</h4>
+                                        <p>Coltivazioni in edifici urbani, completamente automatizzate dall'IA, indipendenti dal clima e dalle stagioni.</p>
+                                    </div>
+                                </li>
+                                <li class="capability-item">
+                                    <span class="capability-icon">🧬</span>
+                                    <div class="capability-text">
+                                        <h4>Piante migliorate</h4>
+                                        <p>IA che progetta nuove varietà di piante più resistenti, nutrienti e adatte ai cambiamenti climatici.</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- SEZIONE IMPATTO SUI LAVORI -->
+        <section class="jobs-section">
+            <div class="jobs-header">
+                <span class="jobs-icon">👔</span>
+                <div>
+                    <h2>L'Impatto dell'IA sul Mondo del Lavoro</h2>
+                    <p class="jobs-subtitle">Quali professioni sono cambiate, quali stanno cambiando e quali cambieranno</p>
+                </div>
+            </div>
+
+            <div class="jobs-intro">
+                <p>L'Intelligenza Artificiale sta trasformando il mercato del lavoro più rapidamente di qualsiasi tecnologia precedente. Alcuni lavori scompaiono, molti si trasformano, altri nascono. Ecco una panoramica dettagliata.</p>
+            </div>
+
+            <!-- LAVORI GIÀ SCOMPARSI O FORTEMENTE RIDOTTI -->
+            <div class="jobs-category">
+                <div class="jobs-category-header scomparsi">
+                    <span class="jobs-cat-icon">❌</span>
+                    <div>
+                        <h3>Lavori Già Scomparsi o Fortemente Ridotti</h3>
+                        <p>Professioni che l'automazione e l'IA hanno già drasticamente ridimensionato</p>
+                    </div>
+                </div>
+                <div class="jobs-grid">
+                    <div class="job-card scomparso">
+                        <div class="job-icon">🎫</div>
+                        <div class="job-info">
+                            <h4>Casellanti autostradali</h4>
+                            <p>Sostituiti quasi ovunque da sistemi automatici di telepedaggio (Telepass, caselli automatici).</p>
+                        </div>
+                    </div>
+                    <div class="job-card scomparso">
+                        <div class="job-icon">🏧</div>
+                        <div class="job-info">
+                            <h4>Operatori di sportello bancario</h4>
+                            <p>Ridotti drasticamente da bancomat, home banking e app. Le filiali bancarie chiudono in massa.</p>
+                        </div>
+                    </div>
+                    <div class="job-card scomparso">
+                        <div class="job-icon">☎️</div>
+                        <div class="job-info">
+                            <h4>Centralinisti telefonici</h4>
+                            <p>Scomparsi con i sistemi automatici di smistamento chiamate e i risponditori vocali.</p>
+                        </div>
+                    </div>
+                    <div class="job-card scomparso">
+                        <div class="job-icon">🎬</div>
+                        <div class="job-info">
+                            <h4>Addetti videoteche e noleggio DVD</h4>
+                            <p>Eliminati dallo streaming (Netflix, Prime Video) che usa l'IA per consigliare contenuti.</p>
+                        </div>
+                    </div>
+                    <div class="job-card scomparso">
+                        <div class="job-icon">📸</div>
+                        <div class="job-info">
+                            <h4>Tecnici sviluppo fotografico</h4>
+                            <p>La fotografia digitale e il fotoritocco automatico hanno eliminato laboratori e minilab.</p>
+                        </div>
+                    </div>
+                    <div class="job-card scomparso">
+                        <div class="job-icon">🏭</div>
+                        <div class="job-info">
+                            <h4>Operai catena di montaggio semplice</h4>
+                            <p>Robot industriali hanno sostituito gran parte del lavoro ripetitivo nelle fabbriche.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LAVORI GIÀ TRASFORMATI -->
+            <div class="jobs-category">
+                <div class="jobs-category-header trasformati">
+                    <span class="jobs-cat-icon">🔄</span>
+                    <div>
+                        <h3>Lavori Già Trasformati dall'IA</h3>
+                        <p>Professioni che esistono ancora ma sono cambiate profondamente</p>
+                    </div>
+                </div>
+                <div class="jobs-grid">
+                    <div class="job-card trasformato">
+                        <div class="job-icon">📰</div>
+                        <div class="job-info">
+                            <h4>Giornalisti</h4>
+                            <p><strong>Prima:</strong> Ricerca manuale, scrittura completa degli articoli.<br><strong>Ora:</strong> L'IA scrive articoli su sport, borsa, meteo. I giornalisti si concentrano su inchieste e analisi.</p>
+                        </div>
+                    </div>
+                    <div class="job-card trasformato">
+                        <div class="job-icon">🏥</div>
+                        <div class="job-info">
+                            <h4>Radiologi</h4>
+                            <p><strong>Prima:</strong> Analisi manuale di ogni immagine.<br><strong>Ora:</strong> L'IA pre-analizza le immagini, il radiologo verifica e decide. Più veloce e preciso.</p>
+                        </div>
+                    </div>
+                    <div class="job-card trasformato">
+                        <div class="job-icon">⚖️</div>
+                        <div class="job-info">
+                            <h4>Avvocati e paralegali</h4>
+                            <p><strong>Prima:</strong> Ore di ricerca manuale in archivi e precedenti.<br><strong>Ora:</strong> L'IA cerca in secondi tra milioni di documenti. L'avvocato si concentra sulla strategia.</p>
+                        </div>
+                    </div>
+                    <div class="job-card trasformato">
+                        <div class="job-icon">🌐</div>
+                        <div class="job-info">
+                            <h4>Traduttori</h4>
+                            <p><strong>Prima:</strong> Traduzione completa parola per parola.<br><strong>Ora:</strong> L'IA traduce, il traduttore rivede e adatta. Meno richiesti per testi semplici.</p>
+                        </div>
+                    </div>
+                    <div class="job-card trasformato">
+                        <div class="job-icon">📊</div>
+                        <div class="job-info">
+                            <h4>Commercialisti</h4>
+                            <p><strong>Prima:</strong> Inserimento manuale dati, calcoli, dichiarazioni.<br><strong>Ora:</strong> Software automatizzano contabilità ordinaria. Il commercialista fa consulenza strategica.</p>
+                        </div>
+                    </div>
+                    <div class="job-card trasformato">
+                        <div class="job-icon">🎨</div>
+                        <div class="job-info">
+                            <h4>Grafici e designer</h4>
+                            <p><strong>Prima:</strong> Creazione manuale di ogni elemento.<br><strong>Ora:</strong> L'IA genera bozze, varianti, sfondi. Il designer guida e perfeziona il risultato.</p>
+                        </div>
+                    </div>
+                    <div class="job-card trasformato">
+                        <div class="job-icon">🛒</div>
+                        <div class="job-info">
+                            <h4>Cassieri supermercati</h4>
+                            <p><strong>Prima:</strong> Scansione manuale di ogni prodotto.<br><strong>Ora:</strong> Casse automatiche, negozi senza casse (Amazon Go). Cassieri ridotti e ricollocati.</p>
+                        </div>
+                    </div>
+                    <div class="job-card trasformato">
+                        <div class="job-icon">📞</div>
+                        <div class="job-info">
+                            <h4>Operatori call center</h4>
+                            <p><strong>Prima:</strong> Risposta a tutte le chiamate.<br><strong>Ora:</strong> Chatbot e IA gestiscono richieste semplici. Gli operatori trattano solo casi complessi.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LAVORI A RISCHIO NEL PROSSIMO FUTURO -->
+            <div class="jobs-category">
+                <div class="jobs-category-header rischio">
+                    <span class="jobs-cat-icon">⚠️</span>
+                    <div>
+                        <h3>Lavori a Rischio nel Prossimo Futuro</h3>
+                        <p>Professioni che probabilmente subiranno grandi cambiamenti nei prossimi 5-15 anni</p>
+                    </div>
+                </div>
+                <div class="jobs-grid">
+                    <div class="job-card rischio">
+                        <div class="job-icon">🚚</div>
+                        <div class="job-info">
+                            <h4>Camionisti e autisti</h4>
+                            <p>I veicoli autonomi stanno avanzando rapidamente. Già oggi esistono camion senza conducente su alcune tratte. Milioni di posti a rischio globalmente.</p>
+                        </div>
+                    </div>
+                    <div class="job-card rischio">
+                        <div class="job-icon">🚖</div>
+                        <div class="job-info">
+                            <h4>Tassisti e autisti NCC</h4>
+                            <p>I robotaxi sono già operativi in alcune città. Uber e altri investono massicciamente nella guida autonoma.</p>
+                        </div>
+                    </div>
+                    <div class="job-card rischio">
+                        <div class="job-icon">📋</div>
+                        <div class="job-info">
+                            <h4>Impiegati amministrativi</h4>
+                            <p>Data entry, archiviazione, gestione pratiche standard: l'IA può automatizzare gran parte di queste attività ripetitive.</p>
+                        </div>
+                    </div>
+                    <div class="job-card rischio">
+                        <div class="job-icon">🏦</div>
+                        <div class="job-info">
+                            <h4>Analisti finanziari junior</h4>
+                            <p>L'IA analizza dati, genera report, fa previsioni. I ruoli entry-level nell'analisi finanziaria sono molto esposti.</p>
+                        </div>
+                    </div>
+                    <div class="job-card rischio">
+                        <div class="job-icon">✍️</div>
+                        <div class="job-info">
+                            <h4>Copywriter e content writer</h4>
+                            <p>L'IA generativa scrive già articoli, post social, descrizioni prodotti. I lavori di scrittura standardizzata sono a rischio.</p>
+                        </div>
+                    </div>
+                    <div class="job-card rischio">
+                        <div class="job-icon">🎧</div>
+                        <div class="job-info">
+                            <h4>Addetti assistenza clienti</h4>
+                            <p>I chatbot diventano sempre più capaci. Molte aziende li preferiscono per disponibilità 24/7 e costi ridotti.</p>
+                        </div>
+                    </div>
+                    <div class="job-card rischio">
+                        <div class="job-icon">📦</div>
+                        <div class="job-info">
+                            <h4>Magazzinieri</h4>
+                            <p>I magazzini Amazon usano già migliaia di robot. L'automazione completa è questione di tempo.</p>
+                        </div>
+                    </div>
+                    <div class="job-card rischio">
+                        <div class="job-icon">🍳</div>
+                        <div class="job-info">
+                            <h4>Cuochi fast food</h4>
+                            <p>Robot che preparano hamburger, pizze, insalate esistono già. Le catene fast food sono molto interessate.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LAVORI CHE NASCERANNO O CRESCERANNO -->
+            <div class="jobs-category">
+                <div class="jobs-category-header nuovi">
+                    <span class="jobs-cat-icon">🌟</span>
+                    <div>
+                        <h3>Lavori che Nasceranno o Cresceranno</h3>
+                        <p>Nuove professioni create dall'IA e ruoli che diventeranno più importanti</p>
+                    </div>
+                </div>
+                <div class="jobs-grid">
+                    <div class="job-card nuovo">
+                        <div class="job-icon">🧠</div>
+                        <div class="job-info">
+                            <h4>Specialisti in IA e Machine Learning</h4>
+                            <p>Progettano, sviluppano e migliorano i sistemi di intelligenza artificiale. Domanda altissima e in crescita.</p>
+                        </div>
+                    </div>
+                    <div class="job-card nuovo">
+                        <div class="job-icon">💬</div>
+                        <div class="job-info">
+                            <h4>Prompt Engineer</h4>
+                            <p>Specialisti nel comunicare efficacemente con l'IA, formulando richieste che ottengono i migliori risultati.</p>
+                        </div>
+                    </div>
+                    <div class="job-card nuovo">
+                        <div class="job-icon">⚖️</div>
+                        <div class="job-info">
+                            <h4>Esperti etica dell'IA</h4>
+                            <p>Garantiscono che i sistemi IA siano equi, non discriminatori e rispettosi dei diritti. Ruolo sempre più richiesto.</p>
+                        </div>
+                    </div>
+                    <div class="job-card nuovo">
+                        <div class="job-icon">🔧</div>
+                        <div class="job-info">
+                            <h4>Tecnici manutenzione robot</h4>
+                            <p>Più robot significano più bisogno di tecnici che li installino, programmino e riparino.</p>
+                        </div>
+                    </div>
+                    <div class="job-card nuovo">
+                        <div class="job-icon">🎓</div>
+                        <div class="job-info">
+                            <h4>Formatori digitali</h4>
+                            <p>Insegnano a lavoratori e aziende come usare efficacemente gli strumenti IA. Come i corsi che fai alla LUTE!</p>
+                        </div>
+                    </div>
+                    <div class="job-card nuovo">
+                        <div class="job-icon">🛡️</div>
+                        <div class="job-info">
+                            <h4>Specialisti cybersecurity IA</h4>
+                            <p>Proteggono i sistemi IA da attacchi e manipolazioni. Difendono contro deepfake e disinformazione.</p>
+                        </div>
+                    </div>
+                    <div class="job-card nuovo">
+                        <div class="job-icon">🤝</div>
+                        <div class="job-info">
+                            <h4>Coordinatori umano-IA</h4>
+                            <p>Gestiscono la collaborazione tra lavoratori umani e sistemi automatizzati, ottimizzando i risultati.</p>
+                        </div>
+                    </div>
+                    <div class="job-card nuovo">
+                        <div class="job-icon">❤️</div>
+                        <div class="job-info">
+                            <h4>Professioni della cura</h4>
+                            <p>Infermieri, assistenti anziani, psicologi: i lavori che richiedono empatia umana cresceranno, non potendo essere sostituiti dall'IA.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LAVORI PIÙ SICURI -->
+            <div class="jobs-category">
+                <div class="jobs-category-header sicuri">
+                    <span class="jobs-cat-icon">🛡️</span>
+                    <div>
+                        <h3>Lavori Più Difficili da Automatizzare</h3>
+                        <p>Professioni che richiedono abilità ancora difficilmente replicabili dall'IA</p>
+                    </div>
+                </div>
+                <div class="jobs-grid">
+                    <div class="job-card sicuro">
+                        <div class="job-icon">🔧</div>
+                        <div class="job-info">
+                            <h4>Artigiani e mestieri manuali specializzati</h4>
+                            <p>Elettricisti, idraulici, falegnami, meccanici: richiedono destrezza, problem-solving in situazioni impreviste, interazione fisica complessa.</p>
+                        </div>
+                    </div>
+                    <div class="job-card sicuro">
+                        <div class="job-icon">👩‍⚕️</div>
+                        <div class="job-info">
+                            <h4>Medici e infermieri</h4>
+                            <p>Diagnosi complesse, decisioni critiche, rapporto con il paziente, interventi fisici: l'IA assiste ma non sostituisce.</p>
+                        </div>
+                    </div>
+                    <div class="job-card sicuro">
+                        <div class="job-icon">👩‍🏫</div>
+                        <div class="job-info">
+                            <h4>Insegnanti (specialmente per bambini)</h4>
+                            <p>Educazione, motivazione, gestione emotiva, adattamento al singolo studente: richiedono presenza umana.</p>
+                        </div>
+                    </div>
+                    <div class="job-card sicuro">
+                        <div class="job-icon">🎭</div>
+                        <div class="job-info">
+                            <h4>Artisti e creativi originali</h4>
+                            <p>L'IA può imitare, ma la creatività autentica, la visione artistica personale e l'innovazione restano umane.</p>
+                        </div>
+                    </div>
+                    <div class="job-card sicuro">
+                        <div class="job-icon">🤝</div>
+                        <div class="job-info">
+                            <h4>Manager e leader</h4>
+                            <p>Guidare persone, negoziare, prendere decisioni strategiche complesse, ispirare: competenze profondamente umane.</p>
+                        </div>
+                    </div>
+                    <div class="job-card sicuro">
+                        <div class="job-icon">🧘</div>
+                        <div class="job-info">
+                            <h4>Psicologi e terapeuti</h4>
+                            <p>Empatia, comprensione profonda, relazione terapeutica: l'IA può supportare ma non può sostituire la connessione umana.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MESSAGGIO CHIAVE -->
+            <div class="jobs-message">
+                <div class="message-icon">💡</div>
+                <div class="message-content">
+                    <h3>Il Messaggio Chiave</h3>
+                    <p>L'IA non sostituirà completamente l'uomo, ma <strong>chi sa usare l'IA sostituirà chi non la sa usare</strong>.</p>
+                    <p>La sfida non è competere con le macchine, ma imparare a collaborare con loro, concentrandoci su ciò che ci rende umani: creatività, empatia, giudizio critico, adattabilità.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEZIONE RIFLESSIONI -->
+            <h2>🤔 Spunti di Riflessione</h2>
+            <div class="reflection-grid">
+                <div class="reflection-card">
+                    <h3>⚖️ Opportunità e Rischi</h3>
+                    <p>L'IA offre possibilità straordinarie ma solleva anche domande importanti: chi è responsabile quando un'IA sbaglia? Come proteggere la privacy? Come evitare discriminazioni algoritmiche?</p>
+                </div>
+                <div class="reflection-card">
+                    <h3>👔 Il Futuro del Lavoro</h3>
+                    <p>Alcuni lavori spariranno, altri nasceranno, molti cambieranno. La sfida è prepararsi al cambiamento e garantire che i benefici siano distribuiti equamente nella società.</p>
+                </div>
+                <div class="reflection-card">
+                    <h3>🎭 Vero e Falso</h3>
+                    <p>Con l'IA che crea immagini, video e testi indistinguibili da quelli reali, diventa sempre più difficile distinguere il vero dal falso. Serve spirito critico.</p>
+                </div>
+                <div class="reflection-card">
+                    <h3>🤝 L'IA è uno Strumento</h3>
+                    <p>L'Intelligenza Artificiale non pensa, non sente, non ha coscienza. È uno strumento potentissimo che amplifica le capacità umane, nel bene e nel male. Sta a noi usarla saggiamente.</p>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <div class="footer-icon">🌟</div>
+            <p><strong>L'Intelligenza Artificiale sta trasformando il mondo.</strong></p>
+            <p>Comprenderla è il primo passo per viverla da protagonisti, non da spettatori.</p>
+            <p style="margin-top: 20px; color: #999;">Materiale didattico per la LUTE di Milazzo</p>
+        </footer>
+    </div>
+
+    <div class="back-to-top" onclick="scrollToTop()">⬆</div>
+
+    <script>
+        function toggleSector(card) {
+            card.classList.toggle('active');
+        }
+
+        function scrollToSector(index) {
+            const cards = document.querySelectorAll('.sector-card');
+            if (cards[index]) {
+                cards[index].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                setTimeout(() => {
+                    if (!cards[index].classList.contains('active')) {
+                        cards[index].classList.add('active');
+                    }
+                }, 500);
+            }
+        }
+
+        function scrollToJobs() {
+            const jobsSection = document.querySelector('.jobs-section');
+            if (jobsSection) {
+                jobsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.addEventListener('scroll', () => {
+            const backToTop = document.querySelector('.back-to-top');
+            if (window.scrollY > 500) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        // Apri la prima card all'avvio
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const firstCard = document.querySelector('.sector-card');
+                if (firstCard && window.innerWidth > 768) {
+                    firstCard.classList.add('active');
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
